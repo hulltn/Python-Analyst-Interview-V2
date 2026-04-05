@@ -13,6 +13,15 @@
     </div>
     
     <button onclick="spin()">Spin</button>
-  
+  <script>
+    function spin() {
+      fetch('/spin)
+            .then(res => res.json())
+            .then(date => {
+              document.getElementById("slot1").src = '/static/images${data[0]}.png';
+              document.getElementById("slot2").src = '/static/images${data[0]}.png';
+              document.getElementById("slot3").src = '/static/images${data[0]}.png';
+            });
+  </script>
   </body>
 </html>
