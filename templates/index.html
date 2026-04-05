@@ -3,9 +3,12 @@
   <head>
     <title>Slot Machine</title>
     <p>Now coded in Python!</p>
+    <link rel="stylesheet" href="static/style.css">
   </head>
   <body>
     <h1>Slot Machine</h1>
+    <h2>Balance: $<span id="balance">{ balance }</span> </h2>
+    <input type=:"number" id="bet" placeholder="Enter bet amount">
     <div id="slots">
       <img id="slot1" src="/static/images/Cincinnati.png">
       <img id="slot2" src="/static/images/Cincinnati.png">
@@ -13,14 +16,41 @@
     </div>
     
     <button onclick="spin()">Spin</button>
+  
+    <h3> id="message"</h3>
+    
   <script>
     function spin() {
-      fetch('/spin)
+      let bet = document.getElementById("bet").value";
+      
+      fetch('/spin, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+              },
+              body: JSON.stringify({ bet: bet})
+            })
             .then(res => res.json())
-            .then(date => {
+            .then(data => {
+
+              if (data.error) {
+                document.getElementById("message").innerText = data.error;
+              }
+              
               document.getElementById("slot1").src = '/static/images${data[0]}.png';
               document.getElementById("slot2").src = '/static/images${data[0]}.png';
               document.getElementById("slot3").src = '/static/images${data[0]}.png';
+
+              document.getElementById("balance").innerText = data.balance;
+
+              if (data.win) {
+                document.getElementById("message").innerText = 
+                  "!!! You Won &" + data.winnings + "!!!";
+              }
+              else {
+                document.getElementById("message").innerText = 
+                  ":( You lost!";
+              }
             });
   </script>
   </body>
